@@ -1,5 +1,6 @@
 # Tower_of_Hanoi_BFS
 
+  <img src="/Images/number5.gif" width="60%" height="60%">
 <ol>
 <li> It uses BFS all outcomes of Hanoi Tower.</li>
 <li> I add queue to eliminate overlaps all outcomes of Hanoi Tower.</li>
@@ -9,7 +10,6 @@
   <img src="/Images/1.png" width="60%" height="60%">
   <img src="/Images/2.png" width="60%" height="60%">
   <img src="/Images/3.png" width="60%" height="60%">
-  <img src="/Images/number5.gif" width="60%" height="60%">
 </ol>
 
 The newest version is 4.2 at c++/ 4.3 at Unity C#.
