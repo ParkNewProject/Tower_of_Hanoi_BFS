@@ -1,6 +1,7 @@
 # Tower_of_Hanoi_BFS
 
   <img src="/Images/number5.gif" width="60%" height="60%">
+  <img src="/Images/number8.gif" width="60%" height="60%">
 <ol>
 <li> It uses BFS all outcomes of Hanoi Tower.</li>
 <li> I add queue to eliminate overlaps all outcomes of Hanoi Tower.</li>
