@@ -1,14 +1,16 @@
-//Queue _ Breadth First Search (G_List, stack)
+//Tower of Hanoi_Breadth First Search (G_List, queue, stack)
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <cmath>
 using namespace std;
 
 queue<int**> q;
-int n = 0;	// index of son
+int n = 0;		// index of son
 int m = -1;	// index of parent
-int ***G_List = new int**[100];
-int *G_Parent = new int[100];
+int number_hanoi;	// height of hanoi tower
+int ***G_List;
+int *G_Parent;
 
 void Sons(int, int, int**);
 void PrintArr(int**);
@@ -18,29 +20,53 @@ bool Equal_G_List(int **);
 
 int main()
 {
-	int **firstArr = new int*[3];
+	cin >> number_hanoi;
+	int size_glist = (int) pow(3, number_hanoi);
+	G_List = new int**[3];
+	G_Parent = new int[3];
+
+	int **firstArr = new int*[number_hanoi];
+	int **goalArr = new int*[number_hanoi];
 	int **currentArr;
 	int **arr;
 
-	// init Arr, q
+	// init rows
 	for (int i = 0; i < 3; i++)
 	{
-		firstArr[i] = new int[3];
-		firstArr[0][i] = 3 - i;
+		firstArr[i] = new int[number_hanoi];
+		goalArr[i] = new int[number_hanoi];
+
+	}
+	// init columns
+	for (int i = 0; i < number_hanoi; i++)
+	{
+		firstArr[0][i] = number_hanoi - i;
+		goalArr[2][i] = number_hanoi - i;
 	}
 
-	for (int i = 1; i <= 2; i++)
-		for (int j = 0; j <= 2; j++)
+	for (int i = 1; i < 3; i++)
+		for (int j = 0; j < number_hanoi; j++)
 			firstArr[i][j] = 0;
+
+	for (int i = 0; i < 2; i++)
+		for (int j = 0; j < number_hanoi; j++)
+			goalArr[i][j] = 0;
 	Put_G_List(firstArr);
 	q.push(firstArr);
 
-	// i: start j: end
+	// i: start, j: arrive
 	while (!q.empty()) {
 		currentArr = q.front();
 		q.pop();
 		m++;
-		if (currentArr[2][0] == 3 && currentArr[2][1] == 2 && currentArr[2][2] == 1) {
+		int cnt = 0;
+		//check goalstate
+		for (int i = 0; i < number_hanoi; i++)
+		{
+			if (currentArr[2][i] == goalArr[2][i]) cnt++;
+		}
+		if (cnt == number_hanoi) {
+			// parent->son printArr
 			stack<int> s;
 			s.push(m);
 			while (m != 0) {
@@ -72,20 +98,20 @@ void Sons(int i, int j, int **arr) {
 	int to;
 
 	// start: [i,from]
-	for (from = 2; from >= 0; from--)
+	for (from = number_hanoi-1; from >= 0; from--)
 		if (arr[i][from] != 0) break;
 
-	// end: [j,to]
-	for (to = 2; to >= 0; to--)
+	// arrive: [j,to]
+	for (to = number_hanoi-1; to >= 0; to--)
 		if (arr[j][to] != 0) break;
 	to++;
 
-	// do not start X
+	// do not start
 	if (from < 0) {
 		return;
 	}
 
-	// end : 1,2
+	// index of arrive is not 0, check idx-1
 	if (to != 0) {
 		if (arr[j][to - 1] <= arr[i][from]) {
 			return;
@@ -101,11 +127,11 @@ void Sons(int i, int j, int **arr) {
 }
 int** CopyArr(int **a)
 {
-	int **copy = new int*[3];
+	int **copy = new int*[number_hanoi];
 	for (int i = 0; i < 3; i++)
 	{
-		copy[i] = new int[3];
-		for (int j = 0; j < 3; j++) {
+		copy[i] = new int[number_hanoi];
+		for (int j = 0; j < number_hanoi; j++) {
 			copy[i][j] = a[i][j];
 		}
 	}
@@ -115,8 +141,8 @@ void Put_G_List(int **a)
 {
 	G_List[n] = new int*[3];
 	for (int i = 0; i < 3; i++) {
-		G_List[n][i] = new int[3];
-		for (int j = 0; j < 3; j++) {
+		G_List[n][i] = new int[number_hanoi];
+		for (int j = 0; j < number_hanoi; j++) {
 			G_List[n][i][j] = a[i][j];
 		}
 	}
@@ -127,13 +153,13 @@ bool Equal_G_List(int **a) {
 	int cnt = 0;
 	for (int x = 0; x < n;) {
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < number_hanoi; j++) {
 				if (G_List[x][i][j] == a[i][j]) {
 					cnt++;
 				}
 			}
 		}
-		if (cnt == 9) return true;
+		if (cnt == number_hanoi*3) return true;
 		else {
 			x++;
 			cnt = 0;
@@ -143,7 +169,7 @@ bool Equal_G_List(int **a) {
 }
 void PrintArr(int **a) {
 	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < number_hanoi; j++) {
 			cout << a[i][j] << " ";
 		}
 		cout << endl;
