@@ -14,3 +14,5 @@
 </ol>
 
 The newest version is 4.2 at c++/ 4.3 at Unity C#.
+
+<Warning> You should build it with ctrl+shift+B for add scenes(TitleScene,SampleScene)) 
